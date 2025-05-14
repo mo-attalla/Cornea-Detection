@@ -1,82 +1,74 @@
-# 🎯 High-Precision Face Detection using MATLAB GUI
+# 👁️ Cornea Detection in Eye Images using MATLAB GUI
 
 ## 📌 Overview
 
-This project presents a **face detection system** developed in MATLAB as part of the *Image Processing (ECE228)* course at Zagazig University. The system is capable of accurately detecting **human faces** in digital images by leveraging a **custom-designed algorithm** that avoids the use of high-level built-in face detection functions.
+This project presents a **cornea detection system** developed in MATLAB for use in analyzing digital eye images. It was completed as part of the *Image Processing (ECE228)* course at Zagazig University.
 
-Instead, we focused on implementing fundamental image processing techniques such as **skin tone segmentation**, **symmetry analysis**, and **geometric filtering** to detect facial regions. The project also includes a full **Graphical User Interface (GUI)** to allow users to interactively load images, start detection, and view results.
+The goal is to accurately identify and highlight the **corneal region** in frontal eye images using a **custom image processing algorithm**. The system avoids deep learning or built-in vision libraries, relying instead on **color thresholding**, **morphological operations**, and **region analysis**. A **graphical user interface (GUI)** was also built to support loading images, running detection, and viewing results in real-time.
 
 ---
 
 ## 🎯 Objectives
 
-- Develop a face detection system from scratch using basic image processing techniques.
-- Avoid the use of built-in high-level detectors (like `vision.CascadeObjectDetector`).
-- Build a GUI to support non-technical users in running detection easily.
-- Ensure accurate detection under different lighting conditions and backgrounds.
+- Detect the cornea based on color and shape features.
+- Build a user-friendly desktop GUI in MATLAB.
+- Ensure robustness across varying lighting conditions and eye types.
+- Maintain a lightweight system with fast execution.
 
 ---
 
 ## 🛠️ How It Works
 
-The system pipeline consists of the following main stages:
+### 1. **Preprocessing & Color Filtering**
+- Convert RGB image to double precision.
+- Split into R, G, and B channels.
+- Apply custom thresholding to isolate red-dominant regions resembling corneal reflections.
 
-1. **Image Preprocessing**
-   - Apply Gaussian filter to reduce noise.
-   - Convert the RGB image to **YCbCr color space** to better separate skin tones.
+### 2. **Binary Mask Generation**
+- Generate a binary mask where the pixel intensity matches expected corneal appearance.
+- Apply **morphological opening and closing** to clean up noise.
 
-2. **Skin Detection**
-   - Threshold the Cr and Cb channels to isolate potential skin regions.
-   - Generate a binary skin mask.
+### 3. **Region Extraction & Scoring**
+- Label connected components.
+- Extract region properties: area, centroid, circularity.
+- Use a **scoring system** based on proximity to the image center and how circular the region is.
 
-3. **Morphological Processing**
-   - Clean up the binary mask using morphological operations:
-     - `imfill` to fill holes
-     - `bwareaopen` to remove small objects
-
-4. **Region Analysis**
-   - Extract connected components using `regionprops`.
-   - Measure area, eccentricity, and bounding boxes.
-
-5. **Face Verification**
-   - Verify potential face regions using:
-     - **Elliptical shape matching**
-     - **Horizontal symmetry** (left/right pixel similarity)
-     - **Eccentricity constraint** to rule out elongated regions
+### 4. **Final Visualization**
+- Draw circles around the detected cornea using `viscircles` for clarity.
 
 ---
 
 ## 🖥️ GUI Features
 
-- `Load Image`: Import an image from the local machine.
-- `Start Detection`: Run the detection pipeline and draw bounding boxes around detected faces.
-- `Reset`: Clear the interface for a new image.
-- `Exit`: Close the application.
+- `Load Image`: Load any digital eye image.
+- `Execute`: Run the cornea detection algorithm.
+- `Reset`: Clear all outputs.
+- `Exit`: Close the app.
+- Status box: Displays processing state like "Ready", "Processing", or "Done".
+
+Four display panels show:
+- Original image  
+- Color threshold mask  
+- Cleaned mask  
+- Final detection result  
 
 ---
 
 ## ✅ Results & Performance
 
-- **Accuracy**: High for well-lit, frontal face images.
-- **False Positives**: Very low due to strict shape and symmetry checks.
-- **Speed**: Acceptable for real-time use within the GUI.
-- **Robustness**: Performs well with variations in skin tone and lighting.
+- **Accuracy**: High for clear, frontal eye images.
+- **False Detection Rate**: Low due to region scoring filters.
+- **Speed**: Near real-time processing.
 
 ---
 
 ## ⚙️ Requirements
 
-- MATLAB R2021a or newer
+- MATLAB R2021a or higher
 - Image Processing Toolbox
-
 
 
 ## 📃 License
 
-This project was developed for academic purposes and is open for educational use.  
-Not intended for commercial applications.
-
----
-
-## 📂 Repository Structure
+For academic use only. Developed as a course project.
 
